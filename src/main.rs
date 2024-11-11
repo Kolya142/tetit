@@ -103,9 +103,13 @@ fn menu_menu(s: &mut MyApp, ui: &mut Ui) {
         if ui.button("close file choice dialog").clicked() {
             s.menu_file_dialog = false;
         }
+        ui.add_space(30f32);
         ui.horizontal(|ui| {
             for filename in fs::read_dir("files").unwrap() {
-                ui.label(filename.unwrap().file_name().into_string().unwrap());
+                let filename = filename.unwrap().file_name().into_string().unwrap();
+                if ui.button(filename.clone()).clicked() {
+                    s.menu_file_text = filename;
+                }
             }
         });
         ui.text_edit_singleline(&mut s.menu_file_text);
